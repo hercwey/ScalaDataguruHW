@@ -13,6 +13,7 @@ object Hw12 {
     println(m2);
   }
 
+  
   def toInt(s: String): Int = {
     try {
       s.toInt
