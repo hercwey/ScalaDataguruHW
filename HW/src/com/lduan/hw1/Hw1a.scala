@@ -11,6 +11,7 @@ object Hw1a {
     println("two " + two);
     val three = min(one, two)
     println(three)
+    
   }
 
   def adder(m: Int, n: Int) = m & n + 3
