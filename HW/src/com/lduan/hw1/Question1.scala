@@ -11,6 +11,7 @@ package com.lduan.hw1 {
           a = n + 1
         return a
       }
+      
 
       def main(args: Array[String]): Unit = {
         val one = adder(5, 6)
