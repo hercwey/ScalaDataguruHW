@@ -14,6 +14,7 @@ object Hw1a {
     
   }
 
+
   def adder(m: Int, n: Int) = m & n + 3
   def min(m: Int, n: Int): Int = {
     var a = m + 1
