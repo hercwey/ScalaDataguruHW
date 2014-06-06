@@ -19,6 +19,8 @@ object Hw3 {
         buf += a1
         m+=(a1->a1)
       }
+      
+      
     }
     buf
   }
