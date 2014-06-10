@@ -5,7 +5,7 @@ import scala.collection.mutable.ArrayBuffer
 class Hw3 {}
 
 object Hw3 {
-  def main(args: Array[String]) {
+  def main(args: Array[String]) ={
     var arrays = Array(1, 2, 3, 4, 1, 2)
     println(checkArray(arrays))
   }
