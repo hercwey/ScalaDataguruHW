@@ -9,4 +9,6 @@ class Watch (h: Int, min: Int)extends Clock(h: Int, min: Int) {
       if(h==this.hours&&min==this.minutes)println("Alert!! Time is "+h+ " : "+min)
   } 
   
+  
+  
 }
