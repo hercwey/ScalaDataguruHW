@@ -11,7 +11,9 @@ lib_managed/
 src_managed/
 project/boot/
 project/plugins/project/
-
+.cache
+.prefs
+.settings/
 # Scala-IDE specific
 .scala_dependencies
 .worksheet
