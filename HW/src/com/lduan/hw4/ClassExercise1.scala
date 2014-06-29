@@ -15,15 +15,15 @@ object ClassExercise1 {
   def main(args: Array[String]) {
     println("ClassExercise1");
     val test1 = accuracy(acc1)_
-    val test2 = test1(1, 2, 0.0001)
+    val test2 = test1(1, 2)
     println(test2)
     val test3 = accuracy(acc2)_
-    val test4 = test3(1, 2, 0.0001)
+    val test4 = test3(1, 2)
     println(test4)
 
   }
   //   def ffff(cc:(Int,Int) => Int)(s:Int,z:Int)=cc(s,z)+z
-  def accuracy(f: (Double, Double) => Double)(a1: Double, a2: Double, c: Double) = f(a1, a2) > c
+  def accuracy(f: (Double, Double) => Double)(a1: Double, a2: Double) = f(a1, a2) > 0.0001
   def acc1(b: Double, next: Double) = (b - next * next) * (b - next * next)
   def acc2(b: Double, next: Double) = (b - next) * (b - next)
 
