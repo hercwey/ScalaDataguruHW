@@ -7,7 +7,7 @@ abstract class Stack[T] {
   def push(x: T): Stack[T] =
     {
      val temp = new NonEmptyStack[T](x, this)
-     mystack.push(temp)
+   //  mystack.push(temp)
      temp
     }
   def isEmpty: Boolean
