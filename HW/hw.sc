@@ -43,4 +43,8 @@ object hw {
  // val t3=accuracy1(t2,"qq")
   println("End")                                  //> End
 
+
+
+
+  
 }
