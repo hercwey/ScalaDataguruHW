@@ -9,7 +9,7 @@ object ClassExercise2 {
     val A = new Array[Int](10)
     A(7) = 57
     val B = A.toBuffer
-    B.remove(2, 2)
+   val cc =  B.remove(2, 2)
     for (i <- 1 to (B.length, 2)) print(B(i)+",")
   }
 
