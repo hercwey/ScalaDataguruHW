@@ -2,6 +2,19 @@ package com.lduan.hw5
 
 import akka.actor._
 import scala.util.Random
+import akka.util.Timeout
+import scala.concurrent.duration.Duration
+import scala.actors.threadpool.TimeUnit
+
+//http://alvinalexander.com/scala/scala-akka-actors-ask-examples-future-await-timeout-result
+import akka.actor._
+import akka.dispatch.
+import akka.dispatch.Future
+import akka.pattern.ask
+import akka.util.Timeout
+import akka.util.duration._
+
+
 case class CreateChild(name: String)
 case class Create(count: Int)
 case class ReturnArray(a: Array[Int])
@@ -36,6 +49,8 @@ class AlgorithmParent extends Actor {
     case ReturnArray(myArray) =>
       sumArray=sumArray++myArray
       sumArray foreach println
+      println(s"--------------")
+       case "test" => sender ! sumArray
     case _ => println(s"Parent got some other message.")
   }
 }
@@ -51,6 +66,8 @@ object AlgorithmParentApp extends App {
  // val jonathan = actorSystem.actorSelection("/user/Parent/task1")
  // jonathan ! PoisonPill
  // println("jonathan was killed")
-  Thread.sleep(100)
+  Thread.sleep(50000)
+  implicit val timeout = Timeout(Duration(1, TimeUnit.SECONDS))
+  val test = Await.result(parent ? "test", Duration(1, TimeUnit.SECONDS))
   actorSystem.shutdown
 }
