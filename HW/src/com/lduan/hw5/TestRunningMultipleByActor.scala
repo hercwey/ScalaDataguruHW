@@ -5,22 +5,19 @@ import scala.util.Random
 import akka.util.Timeout
 import scala.concurrent.duration.Duration
 import scala.actors.threadpool.TimeUnit
-
-//http://alvinalexander.com/scala/scala-akka-actors-ask-examples-future-await-timeout-result
 import akka.actor._
-import akka.dispatch.
-import akka.dispatch.Future
 import akka.pattern.ask
 import akka.util.Timeout
-import akka.util.duration._
+import scala.concurrent.Await
 
+import scala.concurrent.duration._
+import akka.util.Timeout
 
-case class CreateChild(name: String)
+case class CreateChild(name: String, count: Int)
 case class Create(count: Int)
 case class ReturnArray(a: Array[Int])
 class AlgorithmChild extends Actor {
   var name = "No name"
-
   def receive = {
     case Create(count) => {
       println(s"count is $count")
@@ -38,36 +35,53 @@ class AlgorithmChild extends Actor {
   }
 }
 class AlgorithmParent extends Actor {
-  var sumArray=new Array[Int](0)
-  val count = 10;
+  var sumArray = new Array[Int](0)
   def receive = {
-    case CreateChild(name) =>
+    case CreateChild(name, count) =>
       // Parent creates a new Child here
       println(s"Parent about to create Child ($name) ...")
       val child = context.actorOf(Props[AlgorithmChild], name = s"$name")
       child ! Create(count)
     case ReturnArray(myArray) =>
-      sumArray=sumArray++myArray
-      sumArray foreach println
-      println(s"--------------")
-       case "test" => sender ! sumArray
+     // println(sumArray.length)
+     // println("#################")
+      sumArray = sumArray ++ myArray
+    //sumArray foreach println
+    case "GetSumaArray" => sender ! sumArray
     case _ => println(s"Parent got some other message.")
   }
 }
 object AlgorithmParentApp extends App {
+  val count = 3
   val actorSystem = ActorSystem("ParentChildTest")
   val parent = actorSystem.actorOf(Props[AlgorithmParent], name = "Parent")
   // send messages to Parent to create to child actors
-  parent ! CreateChild("task1")
-  parent ! CreateChild("task2")
- // Thread.sleep(500)
-  // lookup Jonathan, then kill it
- // println("Sending Jonathan a PoisonPill ...")
- // val jonathan = actorSystem.actorSelection("/user/Parent/task1")
- // jonathan ! PoisonPill
- // println("jonathan was killed")
-  Thread.sleep(50000)
-  implicit val timeout = Timeout(Duration(1, TimeUnit.SECONDS))
-  val test = Await.result(parent ? "test", Duration(1, TimeUnit.SECONDS))
+  for (a <- 1 to count) {
+    parent ! CreateChild("task" + a, count)
+  }
+
+  implicit val timeout = Timeout(50 seconds)
+  Thread.sleep(200)
+  val future = parent ? "GetSumaArray"
+  val sumArray = Await.result(future, timeout.duration).asInstanceOf[Array[Int]]
+  var total = 0
+  var flag = true
+
+  while (flag) {
+    val len= count * count + count
+    if (sumArray.length == len) {
+      for (i <- 1 to count) {
+        total = total + sumArray((count * i) + (i - 1))
+        println("Total add " + total)
+      }
+      flag = false
+    }
+
+  }
+  println("Array size is " + sumArray.length)
+  println("Total is " + total)
+  //test foreach println
+
+  println("Done")
   actorSystem.shutdown
 }
